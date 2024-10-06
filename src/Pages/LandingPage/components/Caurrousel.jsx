@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPause, FaPlay } from 'react-icons/fa'; // Importamos los iconos de react-icons
+import { FaPause, FaPlay } from 'react-icons/fa';
 
 const Carousel = () => {
   const images = [
@@ -11,26 +11,21 @@ const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Cambiar la imagen cada 3 segundos (3000 ms)
   useEffect(() => {
     if (!isPaused) {
       const interval = setInterval(() => {
-        nextSlide();
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       }, 3000);
-      return () => clearInterval(interval); // Limpiar el intervalo cuando el componente se desmonta o cuando se pausa
+      return () => clearInterval(interval);
     }
-  }, [isPaused, currentIndex]);
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
+  }, [isPaused, images.length]);
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
   const togglePause = () => {
-    setIsPaused(!isPaused); // Alternar entre pausar y reanudar
+    setIsPaused(!isPaused);
   };
 
   return (
@@ -51,7 +46,7 @@ const Carousel = () => {
         &#10094;
       </button>
       <button
-        onClick={nextSlide}
+        onClick={() => setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)}
         className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-transparent text-white p-2 rounded-full hover:bg-gray-700"
       >
         &#10095;
